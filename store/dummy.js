@@ -1,24 +1,36 @@
 // db Mock
 const db = {
   'user': [
-    { id: 1, name: "Koala" },
+    { id: '1', name: "Koala" },
   ]
 };
 
-const list = (table) => {
-  return db[table];
+const list = async (table) => {
+  try {
+    return db[table];
+  } catch (e) {
+    console.error('[db] Error:' + e)
+  }
 };
 
-const get = (table, id) => {
-  let col = list[table];
-  return col.filter(item => item.id === id)[0] || null;
+const get = async (table, id) => {
+  try {
+    let collection = await db[table];
+    return collection.filter(item => item.id === id) || null;
+  } catch (e) {
+    console.error('[db] Error:' + e)
+  }
 };
 
-const upsert = (table, data) => {
-  db[table].push(data);
+const upsert = async (table, data) => {
+  try {
+    await db[table].push(data);
+  } catch (e) {
+    console.error('[db] Error:' + e)
+  }
 };
 
-const remove = (table, data) => {
+const remove = async (table, data) => {
   return true;
 };
 

@@ -6,11 +6,19 @@
  *
 */
 
-const store = require('../../../store/dummy');
 const TABLE = 'user';
 
-const list = () => store.list(TABLE);
+module.exports = function (injectedStore) {
+  let store = injectedStore;
+  !store
+    ? store = require('../../../store/dummy') : null;
 
-module.exports = {
-  list,
+  const list = () => store.list(TABLE);
+
+  const get = (id) => store.get(TABLE, id);
+
+  return {
+    list,
+    get,
+  };
 };
