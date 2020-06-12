@@ -2,7 +2,8 @@
 const db = {
   'user': [
     { id: '1', name: "Koala" },
-  ]
+  ],
+  'auth': [],
 };
 
 const list = async (table) => {

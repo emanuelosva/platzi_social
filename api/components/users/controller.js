@@ -8,6 +8,8 @@
 
 const nanoid = require('nanoid').nanoid;
 
+const auth = require('../auth');
+
 const TABLE = 'user';
 
 // Logic
@@ -20,12 +22,23 @@ module.exports = function (injectedStore) {
 
   const get = (id) => store.get(TABLE, id);
 
-  const upsert = (body) => {
-    const user = { name: body.name };
+  const upsert = async (body) => {
+    const user = {
+      name: body.name,
+      username: body.username,
+    };
 
     body.id
       ? user.id = body.id
       : user.id = nanoid();
+
+    if (body.password || body.username) {
+      await auth.upsert({
+        id: user.id,
+        username: user.username,
+        password: body.password || user.password,
+      });
+    }
 
     return store.upsert(TABLE, user)
   };
