@@ -1,7 +1,11 @@
 // db Mock
 const db = {
   'user': [
-    { id: '1', name: "Koala" },
+    {
+      id: '1',
+      name: "Koala",
+      username: "koala",
+    },
   ],
   'auth': [],
 };
@@ -20,6 +24,18 @@ const get = async (table, id) => {
     return collection.filter(item => item.id === id) || null;
   } catch (e) {
     console.error('[db] Get Error:' + e)
+  }
+};
+
+const query = async (table, querySelctor) => {
+  try {
+    let collection = db[table];
+    let keys = Object.keys(querySelctor);
+    let key = keys[0];
+
+    return collection.filter(item => item[key] === querySelctor[key])[0] || null;
+  } catch (e) {
+    console.error('[db] Query Error:' + e)
   }
 };
 
@@ -44,4 +60,5 @@ module.exports = {
   get,
   upsert,
   remove,
+  query,
 };
