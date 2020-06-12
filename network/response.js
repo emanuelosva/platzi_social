@@ -28,6 +28,8 @@ exports.error = (req, res, message, status, details) => {
   let statusCode = status || 500;
   let statusMessage = message || STATUS_MESSAGES[statusCode];
 
+  console.error(details);
+
   res.status(statusCode).send({
     error: true,
     status: statusCode,

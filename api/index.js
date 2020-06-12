@@ -7,10 +7,13 @@
 */
 
 const express = require('express');
+const bodyParser = require('body-parser')
 const config = require('../config');
 const user = require('./components/users/network');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // ROUTES
 app.use('/api/user', user);

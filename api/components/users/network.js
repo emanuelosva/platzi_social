@@ -35,4 +35,24 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.post('/', (req, res) => {
+  controller.upsert(req.body.data)
+    .then(user => {
+      response.succes(req, res, user, 201);
+    })
+    .catch(err => {
+      response.error(req, res, '', 400, err);
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  controller.remove(req.params.id)
+    .then(deleted => {
+      response.succes(req, res, deleted, 200);
+    })
+    .catch(err => {
+      response.error(req, res, '', 500, err);
+    });
+});
+
 module.exports = router;

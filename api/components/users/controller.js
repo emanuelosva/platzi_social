@@ -17,8 +17,14 @@ module.exports = function (injectedStore) {
 
   const get = (id) => store.get(TABLE, id);
 
+  const upsert = (data) => store.upsert(TABLE, data);
+
+  const remove = (id) => store.remove(TABLE, id);
+
   return {
     list,
     get,
+    upsert,
+    remove,
   };
 };
