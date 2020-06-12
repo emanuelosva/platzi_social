@@ -17,7 +17,8 @@ const router = express.Router();
 // USER ROUTER
 router.get('/', listUsers);
 router.get('/:id', getUser);
-router.post('/', upserUser);
+router.post('/', upsertUser);
+router.put('/', upsertUser);
 router.delete('/:id', removeUser);
 
 // CALLBACKS
@@ -41,7 +42,7 @@ function getUser(req, res) {
     });
 };
 
-function upserUser(req, res) {
+function upsertUser(req, res) {
   controller.upsert(req.body)
     .then(user => {
       response.succes(req, res, user, 201);
