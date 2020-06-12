@@ -12,4 +12,7 @@ module.exports = {
   api: {
     port: process.env.API_PORT || 3000,
   },
+  auth: {
+    secret: process.env.SECRET || 'secret',
+  },
 };

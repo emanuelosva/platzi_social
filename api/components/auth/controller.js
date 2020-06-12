@@ -6,6 +6,8 @@
  *
 */
 
+const auth = require('../../../auth');
+
 const TABLE = 'auth';
 
 module.exports = function (injectedStore) {
@@ -14,11 +16,11 @@ module.exports = function (injectedStore) {
     ? store = require('../../../store/dummy') : null
 
   const login = async (username, password) => {
-    const data = await store.query(TABLE, { username: username });
 
+    const data = await store.query(TABLE, { username: username });
     if (data) {
       if (data.password === password) {
-        return 'TOKEN'
+        return auth.sing(data);
       } else {
         throw new Error('Invalid data')
       }
