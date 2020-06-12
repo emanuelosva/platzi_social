@@ -6,8 +6,11 @@
  *
 */
 
+const nanoid = require('nanoid').nanoid;
+
 const TABLE = 'user';
 
+// Logic
 module.exports = function (injectedStore) {
   let store = injectedStore;
   !store
@@ -17,7 +20,15 @@ module.exports = function (injectedStore) {
 
   const get = (id) => store.get(TABLE, id);
 
-  const upsert = (data) => store.upsert(TABLE, data);
+  const upsert = (body) => {
+    const user = { name: body.name };
+
+    body.id
+      ? user.id = body.id
+      : user.id = nanoid();
+
+    return store.upsert(TABLE, user)
+  };
 
   const remove = (id) => store.remove(TABLE, id);
 

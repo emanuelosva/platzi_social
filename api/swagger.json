@@ -1,0 +1,129 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Una red spcial en Node.js",
+    "version": "1.0.0",
+    "title": "PlatziSocial"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "List all users",
+        "description": "List all users",
+        "operationId": "listUser",
+        "responses": {
+          "default": {
+            "description": "Users list"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "Creates a user in the app",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Remove a user by id",
+        "description": "Remove a specific user from db",
+        "operationId": "removeUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "user removed"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

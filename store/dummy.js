@@ -22,9 +22,9 @@ const get = async (table, id) => {
   }
 };
 
-const upsert = async (table, data) => {
+const upsert = async (table, user) => {
   try {
-    await db[table].push(data);
+    await db[table].push(user);
   } catch (e) {
     console.error('[db] Upsert Error:' + e)
   }

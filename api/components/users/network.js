@@ -15,7 +15,13 @@ const users = require('./index');
 const router = express.Router();
 
 // USER ROUTER
-router.get('/', (req, res) => {
+router.get('/', listUsers);
+router.get('/:id', getUser);
+router.post('/', upserUser);
+router.delete('/:id', removeUser);
+
+// CALLBACKS
+function listUsers(req, res) {
   controller.list()
     .then(list => {
       response.succes(req, res, list, 200);
@@ -23,9 +29,9 @@ router.get('/', (req, res) => {
     .catch(err => {
       response.error(req, res, '', 500, err);
     });
-});
+};
 
-router.get('/:id', (req, res) => {
+function getUser(req, res) {
   controller.get(req.params.id)
     .then(user => {
       response.succes(req, res, user, 200);
@@ -33,19 +39,19 @@ router.get('/:id', (req, res) => {
     .catch(err => {
       response.error(req, res, '', 500, err);
     });
-});
+};
 
-router.post('/', (req, res) => {
-  controller.upsert(req.body.data)
+function upserUser(req, res) {
+  controller.upsert(req.body)
     .then(user => {
       response.succes(req, res, user, 201);
     })
     .catch(err => {
       response.error(req, res, '', 400, err);
     });
-});
+};
 
-router.delete('/:id', (req, res) => {
+function removeUser(req, res) {
   controller.remove(req.params.id)
     .then(deleted => {
       response.succes(req, res, deleted, 200);
@@ -53,6 +59,6 @@ router.delete('/:id', (req, res) => {
     .catch(err => {
       response.error(req, res, '', 500, err);
     });
-});
+};
 
 module.exports = router;
