@@ -11,27 +11,36 @@ const auth = require('../../../auth');
 const TABLE = 'auth';
 
 module.exports = function (injectedStore) {
+  // Set the correct db manage
   let store = injectedStore;
   !injectedStore
     ? store = require('../../../store/dummy') : null
 
+  // Controller logic
   const login = async (username, password) => {
 
     const data = await store.query(TABLE, { username: username });
     if (data) {
-      if (data.password === password) {
-        return auth.sing(data);
-      } else {
-        throw new Error('Invalid data')
-      }
+      return auth.compare(password, data.password)
+        .then(correctPassword => {
+          if (correctPassword) {
+            return auth.sign(data);
+          } else {
+            throw new Error('Invalid data')
+          }
+        });
     }
   };
 
-  const upsert = (data) => {
+  const upsert = async (data) => {
     const authData = { id: data.id };
 
-    data.username ? authData.username = data.username : null
-    data.password ? authData.password = data.password : null
+    data.username
+      ? authData.username = data.username
+      : null
+    data.password
+      ? authData.password = await auth.hash(data.password)
+      : null
 
     return store.upsert(TABLE, authData);
   };
