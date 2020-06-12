@@ -1,0 +1,22 @@
+{
+  "name": "platzi_social",
+  "version": "1.0.0",
+  "description": "Platzi social with nodej.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "keywords": [
+    "node.js",
+    "platzi",
+    "mySQL",
+    "javascript",
+    "social"
+  ],
+  "author": "Emanuel Osorio",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
