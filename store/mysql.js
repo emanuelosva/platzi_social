@@ -102,7 +102,7 @@ const query = (table, query, join) => {
 const upsert = async (table, data) => {
   if (data.id) {
     let queryData = await query(table, { id: data.id })
-    if (queryData) {
+    if (queryData[0]) {
       return update(table, data);
     } else {
       return insert(table, data);

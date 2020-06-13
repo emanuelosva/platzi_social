@@ -10,6 +10,7 @@ const express = require('express');
 
 const response = require('../../../network/response');
 const controller = require('./index');
+const authenticate = require('./secure');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ const router = express.Router();
 router.get('/', listPosts);
 router.get('/:id', getPost);
 router.post('/', upsertPost);
-router.put('/', upsertPost);
+router.put('/', authenticate('upsert'), upsertPost);
 router.delete('/:id', removePost);
 
 
