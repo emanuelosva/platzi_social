@@ -64,20 +64,20 @@ const get = (table, id) => {
   });
 }
 
-const insert = (table, user) => {
+const insert = (table, data) => {
   return new Promise((resolve, reject) => {
-    connection.query(`INSERT INTO ${table} SET ?`, user, (err, user) => {
+    connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
       if (err) { return reject(err) }
-      resolve(user);
+      resolve(result);
     });
   });
 }
 
-const update = (table, user) => {
+const update = (table, data) => {
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE ${table} SET ? WHERE id=?`, [user, user.id], (err, data) => {
+    connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
       if (err) { return reject(err) }
-      resolve(data);
+      resolve(result);
     });
   });
 }
@@ -99,22 +99,22 @@ const query = (table, query, join) => {
   });
 }
 
-const upsert = async (table, user) => {
-  if (user.id) {
-    let queryUser = await query(table, { id: user.id })[0]
-    if (queryUser) {
-      return update(table, user);
+const upsert = async (table, data) => {
+  if (data.id) {
+    let queryData = await query(table, { id: data.id })[0]
+    if (queryData) {
+      return update(table, data);
     } else {
-      return insert(table, user);
+      return insert(table, data);
     }
   } else {
-    return insert(table, user);
+    return insert(table, data);
   }
 }
 
-const remove = (table, user) => {
+const remove = (table, id) => {
   return new Promise((resolve, reject) => {
-    connection.query(`DELETE FROM ${table} WHERE id=?`, user, (err, data) => {
+    connection.query(`DELETE FROM ${table} WHERE id=?`, id, (err, data) => {
       if (err) { return reject(err) }
       resolve(data);
     });

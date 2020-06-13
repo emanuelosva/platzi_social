@@ -219,6 +219,114 @@
             "description": "Internal error"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Create posts",
+        "description": "Create a new posts",
+        "operationId": "addPost",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Update posts",
+        "description": "Update a preexistent posts",
+        "operationId": "updatePost",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal error"
+          }
+        }
+      }
+    },
+    "/post/{id}": {
+      "get": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Get a post",
+        "description": "Get a post by id",
+        "operationId": "getPost",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "post id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid data"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Remove a post",
+        "description": "Remove a post by id",
+        "operationId": "removePost",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "post id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid data"
+          }
+        }
       }
     }
   },

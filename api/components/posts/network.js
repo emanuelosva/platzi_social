@@ -15,10 +15,39 @@ const router = express.Router();
 
 // POST ROUTER
 router.get('/', listPosts);
+router.get('/:id', getPost);
+router.post('/', upsertPost);
+// router.put('/', upsertPost);
+router.delete('/:id', removePost);
+
 
 // CALLBACKS
 function listPosts(req, res, next) {
   controller.list()
+    .then(data => {
+      response.succes(req, res, data, 200);
+    })
+    .catch(next);
+};
+
+function getPost(req, res, next) {
+  controller.get(req.params.id)
+    .then(data => {
+      response.succes(req, res, data, 200);
+    })
+    .catch(next);
+};
+
+function upsertPost(req, res, next) {
+  controller.upsert(req.body)
+    .then(data => {
+      response.succes(req, res, data, 200);
+    })
+    .catch(next);
+};
+
+function removePost(req, res, next) {
+  controller.remove(req.params.id)
     .then(data => {
       response.succes(req, res, data, 200);
     })
