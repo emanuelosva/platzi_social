@@ -13,8 +13,8 @@ const error = require('../utils/error');
 
 const secret = config.auth.secret;
 
-const sign = (usarData) => {
-  return jwt.sign(usarData, secret);
+const sign = (userData) => {
+  return jwt.sign(userData, secret);
 };
 
 const verifyToken = (token) => {

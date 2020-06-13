@@ -43,7 +43,10 @@ module.exports = function (injectedStore) {
     return store.upsert(TABLE, user)
   };
 
-  const remove = (id) => store.remove(TABLE, id);
+  const remove = async (id) => {
+    await auth.remove(id)
+    return store.remove(TABLE, id)
+  };
 
   return {
     list,

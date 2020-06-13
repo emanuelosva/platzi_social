@@ -20,7 +20,8 @@ module.exports = function (injectedStore) {
   // Controller logic
   const login = async (username, password) => {
 
-    const data = await store.query(TABLE, { username: username });
+    const dataQuery = await store.query(TABLE, { username: username });
+    const data = { ...dataQuery }
     if (data) {
       return auth.compare(password, data.password)
         .then(correctPassword => {
@@ -46,8 +47,13 @@ module.exports = function (injectedStore) {
     return store.upsert(TABLE, authData);
   };
 
+  const remove = async (id) => {
+    await store.remove(TABLE, id);
+  }
+
   return {
     upsert,
     login,
+    remove,
   };
 };
