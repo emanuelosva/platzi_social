@@ -8,9 +8,9 @@
 
 const express = require('express');
 
+const authenticate = require('./secure');
 const response = require('../../../network/response');
 const controller = require('./index');
-const users = require('./index');
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ const router = express.Router();
 router.get('/', listUsers);
 router.get('/:id', getUser);
 router.post('/', upsertUser);
-router.put('/', upsertUser);
+router.put('/', authenticate('update'), upsertUser);
 router.delete('/:id', removeUser);
 
 // CALLBACKS

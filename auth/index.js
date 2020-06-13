@@ -10,9 +10,49 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config');
 
+const secret = config.auth.secret;
+
 const sign = (usarData) => {
-  return jwt.sign(usarData, config.auth.secret);
+  return jwt.sign(usarData, secret);
 };
+
+const verifyToken = (token) => {
+  return jwt.verify(token, secret);
+}
+
+const getToken = (authorization) => {
+  if (!authorization) {
+    throw new Error('No token');
+  }
+
+  if (authorization.indexOf('Bearer ') === -1) {
+    throw new Error('Invalid format');
+  }
+
+  let token = authorization.replace('Bearer ', '');
+  return token;
+
+}
+
+const decodeHeader = (req) => {
+  const authorization = req.headers.authorization || '';
+  const token = getToken(authorization);
+  const decoder = verifyToken(token)
+
+  req.user = decoder;
+  return decoder;
+};
+
+const check = {
+  own: (req, owner) => {
+    const decoded = decodeHeader(req);
+    console.log(decoded);
+
+    if (decoded.id !== owner) {
+      throw new Error('You do not have authorization');
+    }
+  },
+}
 
 const hash = async (password) => {
   return await bcrypt.hash(password, 10);
@@ -20,10 +60,11 @@ const hash = async (password) => {
 
 const compare = async (password, hashedPassword) => {
   return await bcrypt.compare(password, hashedPassword);
-}
+};
 
 module.exports = {
   sign,
+  check,
   hash,
   compare,
 };
