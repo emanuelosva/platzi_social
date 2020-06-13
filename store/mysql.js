@@ -82,18 +82,31 @@ const update = (table, user) => {
   });
 }
 
-const query = (table, query) => {
+const query = (table, query, join) => {
+  let joinedQuery = '';
+  if (join) {
+    const key = Object.keys(join)[0];
+    const val = join[key];
+    joinedQuery = `JOIN ${key} ON ${table}.${val} = ${key}.id`;
+  }
+
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM ${table} WHERE ?`, query, (err, data) => {
-      if (err) { return reject(err) }
-      resolve(data[0] || null)
-    });
+    connection.query(`SELECT * FROM ${table} ${joinedQuery} WHERE ${table}.?`,
+      query, (err, data) => {
+        if (err) { return reject(err) }
+        resolve(data || null);
+      });
   });
 }
 
 const upsert = async (table, user) => {
-  if (user && user.id) {
-    return update(table, user);
+  if (user.id) {
+    let queryUser = await query(table, { id: user.id })[0]
+    if (queryUser) {
+      return update(table, user);
+    } else {
+      return insert(table, user);
+    }
   } else {
     return insert(table, user);
   }

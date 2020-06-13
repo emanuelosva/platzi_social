@@ -21,7 +21,7 @@ module.exports = function (injectedStore) {
   const login = async (username, password) => {
 
     const dataQuery = await store.query(TABLE, { username: username });
-    const data = { ...dataQuery }
+    const data = { ...dataQuery[0] }
     if (data) {
       return auth.compare(password, data.password)
         .then(correctPassword => {

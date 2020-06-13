@@ -16,10 +16,12 @@ const router = express.Router();
 
 // USER ROUTER
 router.get('/', listUsers);
-router.get('/:id', getUser);
 router.post('/', upsertUser);
 router.put('/', authenticate('update'), upsertUser);
+router.get('/:id', getUser);
 router.delete('/:id', removeUser);
+router.get('/follow/:id', getFollows);
+router.post('/follow/:id', authenticate('follow'), follow);
 
 // CALLBACKS
 function listUsers(req, res, next) {
@@ -50,6 +52,23 @@ function removeUser(req, res, next) {
   controller.remove(req.params.id)
     .then(deleted => {
       response.succes(req, res, deleted, 200);
+    })
+    .catch(next);
+};
+
+function getFollows(req, res, next) {
+  controller.getFollows(req.params.id)
+    .then(follows => {
+      console.log(follows)
+      response.succes(req, res, follows, 200);
+    })
+    .catch(next);
+};
+
+function follow(req, res, next) {
+  controller.follow(req.user.id, req.params.id)
+    .then(data => {
+      response.succes(req, res, data, 201)
     })
     .catch(next);
 };

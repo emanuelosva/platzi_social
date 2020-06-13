@@ -47,12 +47,14 @@ const decodeHeader = (req) => {
 const check = {
   own: (req, owner) => {
     const decoded = decodeHeader(req);
-    console.log(decoded);
 
     if (decoded.id !== owner) {
 
       throw error('You do not have authorization', 401);
     }
+  },
+  logged: (req) => {
+    const decoded = decodeHeader(req);
   },
 }
 
