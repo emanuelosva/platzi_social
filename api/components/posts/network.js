@@ -17,7 +17,7 @@ const router = express.Router();
 router.get('/', listPosts);
 router.get('/:id', getPost);
 router.post('/', upsertPost);
-// router.put('/', upsertPost);
+router.put('/', upsertPost);
 router.delete('/:id', removePost);
 
 
