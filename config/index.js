@@ -13,7 +13,7 @@ module.exports = {
     port: process.env.API_PORT || 3000,
   },
   auth: {
-    secret: process.env.SECRET,
+    secret: process.env.SECRET || 'secret',
   },
   mysql: {
     host: process.env.MYSQL_HOST || 'remotemysql.com',
