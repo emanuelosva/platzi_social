@@ -134,6 +134,58 @@
         }
       }
     },
+    "/user/follow/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "List the follows from a user",
+        "description": "Respond a list with the user that the userId-user follow",
+        "operationId": "listFollows",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "user id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid data"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Follow a user",
+        "description": "Follow a user by id. Authentication needed",
+        "operationId": "followUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "User to follow id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid data"
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -147,6 +199,24 @@
           },
           "400": {
             "description": "Invalid data"
+          }
+        }
+      }
+    },
+    "/post": {
+      "get": {
+        "tags": [
+          "post"
+        ],
+        "summary": "List posts",
+        "description": "List all posts",
+        "operationId": "listPost",
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -173,6 +243,21 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string",
+          "description": "username id"
+        },
+        "text": {
           "type": "string"
         }
       }
