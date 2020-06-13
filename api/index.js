@@ -14,7 +14,9 @@ const swaggerUi = require('swagger-ui-express');
 const config = require('../config');
 const user = require('./components/users/network');
 const auth = require('./components/auth/network');
+const errors = require('../network/errors');
 const swaggerDoc = require('./swagger.json');
+const e = require('express');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/user', user);
 app.use('/api/auth', auth);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
+app.use(errors);
 
 
 app.listen(config.api.port, () => {

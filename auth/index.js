@@ -9,6 +9,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config');
+const error = require('../utils/error');
 
 const secret = config.auth.secret;
 
@@ -22,11 +23,11 @@ const verifyToken = (token) => {
 
 const getToken = (authorization) => {
   if (!authorization) {
-    throw new Error('No token');
+    throw error('No token', 404);
   }
 
   if (authorization.indexOf('Bearer ') === -1) {
-    throw new Error('Invalid format');
+    throw error('Invalid format', 400);
   }
 
   let token = authorization.replace('Bearer ', '');
@@ -49,7 +50,8 @@ const check = {
     console.log(decoded);
 
     if (decoded.id !== owner) {
-      throw new Error('You do not have authorization');
+
+      throw error('You do not have authorization', 401);
     }
   },
 }

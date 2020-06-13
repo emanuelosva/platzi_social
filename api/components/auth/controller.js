@@ -7,6 +7,7 @@
 */
 
 const auth = require('../../../auth');
+const error = require('../../../utils/error');
 
 const TABLE = 'auth';
 
@@ -26,7 +27,7 @@ module.exports = function (injectedStore) {
           if (correctPassword) {
             return auth.sign(data);
           } else {
-            throw new Error('Invalid data')
+            throw error('Invalid data', 401);
           }
         });
     }
