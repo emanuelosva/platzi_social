@@ -127,4 +127,6 @@ module.exports = {
   upsert,
   remove,
   query,
+  insert,
+  update,
 };
