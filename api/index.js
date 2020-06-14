@@ -17,11 +17,9 @@ const post = require('./components/posts/network');
 const auth = require('./components/auth/network');
 const errors = require('../network/errors');
 const swaggerDoc = require('./swagger.json');
-const e = require('express');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // ROUTES
 app.use('/api/user', user);

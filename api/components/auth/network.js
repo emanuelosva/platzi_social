@@ -14,14 +14,12 @@ const controller = require('./index');
 const router = express.Router();
 
 // AUTH ROUTER
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
   controller.login(req.body.username, req.body.password)
     .then(token => {
       response.succes(req, res, token, 200);
     })
-    .catch(err => {
-      response.error(req, res, 'Invalid data', 400, err);
-    });
+    .catch(next);
 })
 
 module.exports = router;

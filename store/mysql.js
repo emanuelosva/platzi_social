@@ -8,7 +8,6 @@
 
 const mysql = require('mysql');
 const config = require('../config');
-const e = require('express');
 
 // MySQL conf
 const dbconfig = {

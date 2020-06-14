@@ -15,8 +15,9 @@ const router = express.Router();
 
 router.get('/:table', list);
 router.get('/:table/:id', get);
-router.post('/:table', insert);
-router.put('/:table', update);
+router.post('/:table', upsert);
+router.put('/:table', upsert);
+router.post('/:table/query', query);
 router.delete('/:table/:id', remove);
 
 async function list(req, res, next) {
@@ -39,9 +40,9 @@ async function get(req, res, next) {
   }
 };
 
-async function insert(req, res, next) {
+async function upsert(req, res, next) {
   try {
-    const data = await store.insert(req.params.table, req.body);
+    const data = await store.upsert(req.params.table, req.body);
     response.succes(req, res, data, 200);
   } catch (err) {
     console.log(`[db microservice] Error -> ${err.message}`);
@@ -65,6 +66,15 @@ async function remove(req, res, next) {
     response.succes(req, res, data, 200);
   } catch (err) {
     console.log(`[db microservice] Error -> ${err.message}`);
+    response.error(req, res, '', 500, '');
+  }
+};
+
+async function query(req, res, next) {
+  try {
+    const data = await store.query(req.params.table, req.body.query, req.body.join);
+    response.succes(req, res, data, 200);
+  } catch (error) {
     response.error(req, res, '', 500, '');
   }
 };
