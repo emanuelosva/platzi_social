@@ -13,14 +13,40 @@ const auth = require('../auth');
 const TABLE = 'user';
 
 // Logic
-module.exports = function (injectedStore) {
+module.exports = function (injectedStore, injectedCache) {
   let store = injectedStore;
+  let cache = injectedCache;
+
   !store
     ? store = require('../../../store/dummy') : null;
 
-  const list = () => store.list(TABLE);
+  !cache
+    ? cache = require('../../../store/dummy') : null;
 
-  const get = (id) => store.get(TABLE, id);
+  const list = async () => {
+    let users = await cache.list(TABLE);
+
+    if (!users) {
+      console.log('De DB')
+      users = await store.list(TABLE);
+      cache.upsert(TABLE, users);
+    } else {
+      console.log('Viene de cache');
+    }
+    return users;
+  };
+
+  const get = async (id) => {
+    let user = await cache.get(TABLE, id);
+
+    if (!user) {
+      let _user = await store.get(TABLE, id);
+      user = _user[0]
+      cache.upsert(TABLE, user);
+    }
+
+    return user;
+  };
 
   const upsert = async (body) => {
     const user = {

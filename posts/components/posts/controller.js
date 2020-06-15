@@ -12,20 +12,37 @@ const error = require('../../../utils/error');
 
 const TABLE = 'post';
 
-module.exports = function name(injectedStore) {
+module.exports = function name(injectedStore, injectedCache) {
 
   // DB manage
   let store = injectedStore;
+  let cache = injectedCache;
+  !injectedStore
+    ? store = require('../../../store/dummy') : null
   !injectedStore
     ? store = require('../../../store/dummy') : null
 
   // Controller logic
   const list = async () => {
-    return store.list(TABLE);
+    let posts = await cache.list(TABLE);
+
+    if (!posts) {
+      posts = await store.list(TABLE);
+      cache.upsert(TABLE, posts);
+    }
+
+    return posts;
   };
 
   const get = async (id) => {
-    return store.get(TABLE, id)
+    let post = await cache.get(TABLE, id);
+
+    if (!post) {
+      let _post = await store.get(TABLE, id);
+      post = _post[0];
+      cache.upsert(TABLE, post)
+    }
+    return post
   };
 
   const upsert = async (body) => {

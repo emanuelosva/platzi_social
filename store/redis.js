@@ -20,7 +20,11 @@ const list = (table) => {
     client.get(table, (err, data) => {
       if (err) return reject(err);
 
-      let res = JSON.stringify(data || null);
+      let res = data || null;
+      if (data) {
+        res = JSON.parse(data);
+      };
+
       resolve(res);
     });
   });
@@ -28,7 +32,7 @@ const list = (table) => {
 
 const get = (table, id) => {
   let _table = table + '_' + id
-  return list(table);
+  return list(_table);
 };
 
 const upsert = async (table, data) => {
@@ -36,8 +40,9 @@ const upsert = async (table, data) => {
   if (data && data.id) {
     key = key + '_' + data.id;
   }
+  console.log(key)
 
-  client.setex(key, 10, JSON.stringify(data))
+  client.setex(key, 10, JSON.stringify(data));
   return true;
 };
 
