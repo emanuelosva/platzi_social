@@ -4,7 +4,8 @@
   "description": "Platzi social with nodej.js",
   "main": "index.js",
   "scripts": {
-    "start": "node api/index.js"
+    "start": "nodemon api/index.js",
+    "db": "nodemon mysql/index.js"
   },
   "keywords": [
     "node.js",
