@@ -14,6 +14,11 @@ module.exports = {
     port: process.env.API_PORT || 3000,
   },
 
+  // POST MicroService CONFIG
+  post: {
+    port: process.env.POST_PORT || 3002,
+  },
+
   // AUTHENTICATION CONFGIG
   auth: {
     secret: process.env.SECRET || 'secret',
