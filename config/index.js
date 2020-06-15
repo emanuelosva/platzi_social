@@ -39,6 +39,19 @@ module.exports = {
     host: process.env.MYSQL_SRV_HOST || 'localhost',
   },
 
+  // CACHE CONFGIG
+  cacheService: {
+    port: process.env.CACHE_PORT || 3003,
+    host: process.env.CACHE_HOST || 'localhost',
+  },
+
   // Remote DB for Deploy
   remoteDB: process.env.REMOTE_DB || false,
+
+  // Redis
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD
+  }
 };

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Remote connection to MySQL server
+ * @fileoverview Remote connection to cache server
  *
  * @version 1.0
  * @author Emanuel Osorio <emanuelosva@gmail.com>
